@@ -38,7 +38,7 @@
 
 // SPIFBlockDevice bd(PE_15, PE_14, PE_13, PE_12);
 // SPIFBlockDevice bd(PE_12, PE_13, PE_10, PE_11);
-QSPIFBlockDevice bd(PE_12, PE_13, PE_14, PE_15,PE_10,PE_11,0);
+QSPIFBlockDevice bd(PE_12, PE_13, PE_14, PE_15,PE_10,PE_11,0,8000000);
 
 
 // Entry point for the example
@@ -68,7 +68,9 @@ int main() {
     // data to a block.
     size_t buffer_size = sizeof("Hello Storage!") + program_size-1;
     buffer_size = buffer_size - (buffer_size % program_size);
-    char *buffer = new char[buffer_size];
+    printf("Buffer Size: %d \r\n",buffer_size);
+    // char *buffer = new char[buffer_size];
+    char buffer[buffer_size] = {0};
 
     // Read what is currently stored on the block device. We haven't written
     // yet so this may be garbage
