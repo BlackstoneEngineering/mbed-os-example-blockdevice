@@ -18,18 +18,27 @@
 #include <algorithm>
 
 // Block devices
-#include "SPIFBlockDevice.h"
-#include "DataFlashBlockDevice.h"
-#include "SDBlockDevice.h"
-#include "HeapBlockDevice.h"
+// #include "SPIFBlockDevice.h"
+// #include "DataFlashBlockDevice.h"
+#include "mbed-os/hal/qspi_api.h"
+#include "mbed-os/drivers/QSPI.h"
+#include "mbed-os/features/filesystem/bd/QSPIFBlockDevice.h"
+#define DEVICE_QSPI
+
+// #include "SDBlockDevice.h"
+// #include "HeapBlockDevice.h"
 
 
 // Physical block device, can be any device that supports the BlockDevice API
-SPIFBlockDevice bd(
-        MBED_CONF_SPIF_DRIVER_SPI_MOSI,
-        MBED_CONF_SPIF_DRIVER_SPI_MISO,
-        MBED_CONF_SPIF_DRIVER_SPI_CLK,
-        MBED_CONF_SPIF_DRIVER_SPI_CS);
+// SPIFBlockDevice bd(
+//         MBED_CONF_SPIF_DRIVER_SPI_MOSI,
+//         MBED_CONF_SPIF_DRIVER_SPI_MISO,
+//         MBED_CONF_SPIF_DRIVER_SPI_CLK,
+//         MBED_CONF_SPIF_DRIVER_SPI_CS);
+
+// SPIFBlockDevice bd(PE_15, PE_14, PE_13, PE_12);
+// SPIFBlockDevice bd(PE_12, PE_13, PE_10, PE_11);
+QSPIFBlockDevice bd(PE_12, PE_13, PE_14, PE_15,PE_10,PE_11,0);
 
 
 // Entry point for the example
@@ -86,7 +95,7 @@ int main() {
 
     // Write data to first block, write occurs in two parts,
     // an erase followed by a program
-    printf("bd.erase(%d, %lld)\n", 0, erase_size);
+    printf("bd.erase(%d, %lld)\r\n", 0, erase_size);
     err = bd.erase(0, erase_size);
     printf("bd.erase -> %d\n", err);
 
